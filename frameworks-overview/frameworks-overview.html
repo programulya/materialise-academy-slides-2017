@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Materialise Academy - JS Frameworks Overview</title>
+    <meta charset="utf-8">
+    <style>
+        @import url(https://fonts.googleapis.com/css?family=Yanone+Kaffeesatz);
+        @import url(https://fonts.googleapis.com/css?family=Droid+Serif:400,700,400italic);
+        @import url(https://fonts.googleapis.com/css?family=Ubuntu+Mono:400,700,400italic);
+
+        body {
+            font-family: 'Droid Serif';
+            color: whitesmoke;
+        }
+
+        h1, h2, h3 {
+            font-family: 'Yanone Kaffeesatz';
+            font-weight: normal;
+        }
+
+        .remark-code, .remark-inline-code {
+            font-family: 'Ubuntu Mono';
+        }
+
+        .remark-slide>.center {
+            background-color: rgba(72,72,72,1);
+        }
+
+        .remark-slide-content {
+            background-color: rgba(72,72,72,1);
+        }
+    </style>
+</head>
+<body>
+    <textarea id="source" style="display: none;">
+
+      class: center, middle
+      # Short JS frameworks overview
+
+      ---
+      # What libraries/frameworks are popular
+      1. Angular (by Google, MS)
+
+      2. React (by Facebook)
+
+      3. Ember (by open source)
+
+      4. Aurelia (by Durandal Inc.)
+
+      5. Meteor
+
+      6. Backbone
+
+      7. Polymer (by Google)
+
+      8. Vue.js
+
+      9. Knockout
+
+      10. JQuery
+
+      ---
+      class: center, middle
+      # Angular vs Angular 2
+
+      ---
+      # Angular 1.x
+
+      1. MV* approach, creator <a href="https://johnpapa.net/angular-style-guide/">John Papa</a>
+
+      2. Template
+      ``` javascript
+      <ul>
+            <li ng-repeat="phone in phones">
+                <span>{{phone.name}}</span>
+                <p>{{phone.snippet}}</p>
+            </li>
+      </ul>
+      ```
+      3. Data binding
+      ``` javascript
+       <input ng-model="$ctrl.query">
+
+       // controller
+       $ctrl.query = //value
+      ```
+      ---
+      # Controllers
+
+      ``` javascript
+      controller: ['$http', '$routeParams',
+        function PhoneDetailController($http, $routeParams) {
+            var self = this;
+
+            self.setImage = function setImage(imageUrl) {
+               self.mainImageUrl = imageUrl;
+            };
+
+           $http.get('phones/' + $routeParams.phoneId + '.json').then(function(response) {
+              self.phone = response.data;
+              self.setImage(self.phone.images[0]);
+            });
+        }
+      ```
+      ---
+      # Services
+      ``` javascript
+      angular.module('myServiceModule', []).
+      controller('MyController', ['$scope', 'notify', function ($scope, notify) {
+          $scope.callNotify = function(msg) {
+               notify(msg);
+          };
+      }]).
+      factory('notify', ['$window', function(win) {
+         var msgs = [];
+         return function(msg) {
+          msgs.push(msg);
+          if (msgs.length == 3) {
+            win.alert(msgs.join("\n"));
+            msgs = [];
+          }
+         };
+      }]);
+      ```
+      ---
+      # React
+      
+      ### Main idea is single component which can be combined into a bigger one.
+      ---
+      # How it works
+
+      <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR3FPRu-CXxaUrvE01e4m0aL1D8V1qx1QejKh4WigdGk3_-J32C" style="width:600px;hight:200px"/>
+      ---
+      # Event handling
+      <img src="http://reactfordesigners.com/images/labs/jquery-style-vs-react-style.png" style="width:300px;height:400px;"/>
+
+      ---
+      # Typical component
+
+      ``` javascript
+      var MyComponent = React.createClass({
+        propTypes: {
+            children: React.PropTypes.element.isRequired
+        },
+
+        render: function() {
+            return (
+              <div>
+                  {this.props.children} // This must be exactly one element or it will warn.
+              </div>
+            );
+        }
+      });
+
+      ```
+      ---
+      # Ember
+
+      <img src="http://www.gravatar.com/avatar/0cf15665a9146ba852bf042b0652780a?s=200" style="width:256px;height:256px"/>
+      ---
+      # Main concept
+
+      1. Everything is a route
+
+      2. Each route has a template
+
+      3. Each route has a model
+
+      4. Ember has services, components, own template system etc.
+      ---
+      # Ember basics p1.
+
+      Ember generator
+
+      ``` javascript
+      ember generate route about
+      ```
+
+      Ember route
+
+      ``` javascript
+      import Ember from 'ember';
+      import config from './config/environment';
+
+      const Router = Ember.Router.extend({
+        location: config.locationType
+      });
+
+      Router.map(function() {
+        this.route('about');
+      });
+
+      export default Router;
+      ```
+      ---
+      # Ember template system
+      ``` javascript
+      <div class="jumbo">
+          <div class="right tomster"></div>
+            <h2>About Super Rentals</h2>
+              <p>
+                  The Super Rentals website is a delightful project created to explore Ember.
+                  By building a property rental site, we can simultaneously imagine traveling
+                  AND building Ember applications.
+             </p>
+      </div>
+      ```
+      ---
+      # Polymer
+
+      <img src="https://www.polymer-project.org/images/logos/p-logo.png" style="width:300px;height:256px"/>
+
+      The Polymer Project is an open-source project led by a team of front-end developers working within the Chrome organization at Google.
+      ---
+      # Main concept
+
+      1. Polymer is a lightweight library that helps you take full advantage of Web Components.
+
+      2. With Web Components, you can create reusable custom elements that interoperate seamlessly with the browser’s built-in elements, or break your app up into right-sized components, making your code cleaner and less expensive to maintain.
+
+      3. Polymer sprinkles a bit of sugar over the standard Web Components APIs, making it easier for you to get great results.
+
+      ---
+      # Typical component
+
+      ``` javascript
+      <dom-module id="element-name">
+
+        <template>
+            <style>
+                /* CSS rules for your element */
+            </style>
+
+            <!-- local DOM for your element -->
+
+            <div>{{greeting}}</div> <!-- data bindings in local DOM -->
+        </template>
+
+        <script>
+            // element registration
+            Polymer({
+                is: "element-name",
+
+                // add properties and methods on the element's prototype
+
+                properties: {
+                    // declare properties for the element's public API
+                    greeting: {
+                        type: String,
+                        value: "Hello!"
+                    }
+                }
+            });
+        </script>
+
+      </dom-module>
+      ```
+      ---
+      class: center, middle
+      # THE END
+
+    </textarea>
+    <script src="https://gnab.github.io/remark/downloads/remark-latest.min.js">
+    </script>
+
+    <script>
+        var slideshow = remark.create();
+    </script>
+  </body>
+</html>
